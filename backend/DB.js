@@ -13,6 +13,8 @@ const todoSchema = new Schema({
 const userSchema = new Schema({
   userName: String,
   password: String,
+  firstName: String,
+  lastName: String,
   emailId: { type: String, unique: true },
   DateOfBirth: String,
   userID: ObjectId,
@@ -20,7 +22,7 @@ const userSchema = new Schema({
 });
 
 const todoModel = mongoose.model("todos", todoSchema);
-const userModel = mongoose.model("users", userSchema);
+const userModel = mongoose.model("users_datas", userSchema);
 
 module.exports = {
   todoModel,
