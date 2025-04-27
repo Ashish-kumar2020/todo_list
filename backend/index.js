@@ -3,8 +3,17 @@ const app = express();
 require("dotenv").config();
 const PORT_NUMBER = process.env.PORT_NUMBER;
 const { userRouter } = require("./routes/userRouter");
-const { default: mongoose } = require("mongoose");
+const { mongoose } = require("mongoose");
+const cors = require("cors");
 app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow this specific origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  })
+);
+
 app.use("/api/v1/user", userRouter);
 async function main() {
   try {

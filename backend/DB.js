@@ -15,7 +15,7 @@ const userSchema = new Schema({
   password: String,
   firstName: String,
   lastName: String,
-  emailId: { type: String, unique: true },
+  email: { type: String, unique: true },
   DateOfBirth: String,
   userID: ObjectId,
   todos: [todoSchema],

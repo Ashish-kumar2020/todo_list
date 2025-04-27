@@ -1,16 +1,15 @@
 const { Router } = require("express");
 const { userModel } = require("../DB");
 const { Types } = require("mongoose");
+const jwt = require("jsonwebtoken");
+
 const userRouter = Router();
 
 // create a user [signup]
-
 userRouter.post("/signup", async (req, res) => {
-  // Extract all the fields from body
   const { userName, password, firstName, lastName, email, DateOfBirth } =
     req.body;
 
-  // Check if any of the parameter is null or not
   if (
     !userName ||
     !password ||
@@ -24,27 +23,24 @@ userRouter.post("/signup", async (req, res) => {
     });
   }
   try {
-    // Check if user already exists in DB
-    const checkUserExists = await userModel.findOne({ email });
+    const checkUserExists = await userModel.findOne({ email: email });
     if (checkUserExists) {
       return res.status(200).json({
-        message: "Email ID Already Registred",
+        message: "Email ID Already Registered",
       });
     }
 
-    // Create userID
     const userID = new Types.ObjectId();
-    // create new User
     const user = await userModel.create({
-      userName: userName,
-      password: password,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      DateOfBirth: DateOfBirth,
-      userID: userID,
+      userName,
+      password,
+      firstName,
+      lastName,
+      email,
+      DateOfBirth,
+      userID,
     });
-
+    console.log(user);
     return res.status(200).json({
       message: "User Created Successfully",
       user: user,
@@ -62,7 +58,49 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-// singin
+// signin
+userRouter.post("/signin", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({
+      message: "All Fields are mandatory",
+    });
+  }
+
+  try {
+    const existingUser = await userModel.findOne({ email });
+    if (!existingUser) {
+      return res.status(200).json({
+        message: "Email Does not exist. Please signup",
+      });
+    }
+
+    if (existingUser.password !== password) {
+      return res.status(200).json({
+        message: "Wrong Credentials",
+      });
+    }
+
+    const token = jwt.sign(
+      { user: existingUser.email },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({
+      message: "Logged in Successfully",
+      existingUser,
+      token,
+    });
+  } catch (error) {
+    console.log("Error during signin", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
 module.exports = {
-  userRouter: userRouter,
+  userRouter,
 };
