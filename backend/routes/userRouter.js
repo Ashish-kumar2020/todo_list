@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { userModel } = require("../DB");
 const { Types } = require("mongoose");
 const jwt = require("jsonwebtoken");
-
+const bcrypt = require("bcrypt");
 const userRouter = Router();
 
 // create a user [signup]
@@ -24,23 +24,24 @@ userRouter.post("/signup", async (req, res) => {
   }
   try {
     const checkUserExists = await userModel.findOne({ email: email });
+
     if (checkUserExists) {
       return res.status(200).json({
         message: "Email ID Already Registered",
       });
     }
-
+    const hashedPassword = await bcrypt.hash(password, 10);
     const userID = new Types.ObjectId();
     const user = await userModel.create({
       userName,
-      password,
+      password: hashedPassword,
       firstName,
       lastName,
       email,
       DateOfBirth,
       userID,
     });
-    console.log(user);
+
     return res.status(200).json({
       message: "User Created Successfully",
       user: user,
@@ -61,7 +62,7 @@ userRouter.post("/signup", async (req, res) => {
 // signin
 userRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
-
+  console.log(email, password);
   if (!email || !password) {
     return res.status(400).json({
       message: "All Fields are mandatory",
@@ -76,23 +77,26 @@ userRouter.post("/signin", async (req, res) => {
       });
     }
 
-    if (existingUser.password !== password) {
+    const passwordMatch = await bcrypt.compare(password, existingUser.password);
+    console.log("Password Matched", passwordMatch);
+    if (!passwordMatch) {
       return res.status(200).json({
         message: "Wrong Credentials",
       });
     }
 
-    const token = jwt.sign(
-      { user: existingUser.email },
-      process.env.JWT_SECRET_KEY,
-      { expiresIn: "1h" }
-    );
-
-    return res.status(200).json({
-      message: "Logged in Successfully",
-      existingUser,
-      token,
-    });
+    if (passwordMatch && existingUser) {
+      const token = jwt.sign(
+        { user: existingUser.email },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "1h" }
+      );
+      return res.status(200).json({
+        message: "Logged in Successfully",
+        existingUser,
+        token,
+      });
+    }
   } catch (error) {
     console.log("Error during signin", error);
     res.status(500).json({
