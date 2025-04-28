@@ -140,8 +140,8 @@ userRouter.post("/createtodo", async (req, res) => {
   }
 });
 
-// Fetch all todos endpoint
-userRouter.post("/fetchAllTodo", async (req, res) => {
+// Fetch all Backlog todos endpoint
+userRouter.post("/fetchbacklogTodo", async (req, res) => {
   const { userID } = req.body;
   if (!userID) {
     return res.status(400).json({
@@ -156,10 +156,13 @@ userRouter.post("/fetchAllTodo", async (req, res) => {
         message: "User not found",
       });
     }
-    console.log("User Found", userFound.todos);
+    const backlogTasks = userFound.todos.filter(
+      (task) => task.status === "Backlog"
+    );
+
     return res.status(200).json({
       message: "User Todos",
-      todos: userFound.todos,
+      todos: backlogTasks,
     });
   } catch (error) {
     console.log("Error in fetching todo", error);
@@ -169,6 +172,69 @@ userRouter.post("/fetchAllTodo", async (req, res) => {
   }
 });
 
+// Fetch all Inprogress Task
+userRouter.post("/fetchinprogressTodo", async (req, res) => {
+  const { userID } = req.body;
+  if (!userID) {
+    return res.status(400).json({
+      message: "Pass the userID",
+    });
+  }
+
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+    const inprogressTasks = userFound.todos.filter(
+      (task) => task.status === "Inprogress"
+    );
+
+    return res.status(200).json({
+      message: "User Todos",
+      todos: inprogressTasks,
+    });
+  } catch (error) {
+    console.log("Error in fetching todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+// Fetch all Done Task
+userRouter.post("/fetchdoneTodo", async (req, res) => {
+  const { userID } = req.body;
+  if (!userID) {
+    return res.status(400).json({
+      message: "Pass the userID",
+    });
+  }
+
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+    const doneTasks = userFound.todos.filter((task) => task.status === "Done");
+
+    return res.status(200).json({
+      message: "User Todos",
+      todos: doneTasks,
+    });
+  } catch (error) {
+    console.log("Error in fetching todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+// Fetch
 module.exports = {
   userRouter,
 };
