@@ -129,12 +129,40 @@ userRouter.post("/createtodo", async (req, res) => {
       todoID,
     });
     findUser.save();
-    console.log("findUser", findUser);
     return res.status(200).json({
       message: "Todo created Successfully",
     });
   } catch (error) {
-    console.log("Error during signin", error);
+    console.log("Error in creating todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+// Fetch all todos endpoint
+userRouter.post("/fetchAllTodo", async (req, res) => {
+  const { userID } = req.body;
+  if (!userID) {
+    return res.status(400).json({
+      message: "Pass the userID",
+    });
+  }
+
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+    console.log("User Found", userFound.todos);
+    return res.status(200).json({
+      message: "User Todos",
+      todos: userFound.todos,
+    });
+  } catch (error) {
+    console.log("Error in fetching todo", error);
     res.status(500).json({
       message: "Internal Server Error",
     });
