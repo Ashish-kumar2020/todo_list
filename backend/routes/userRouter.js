@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userRouter = Router();
 
-// create a user [signup]
+// signup endpoint
 userRouter.post("/signup", async (req, res) => {
   const { userName, password, firstName, lastName, email, DateOfBirth } =
     req.body;
@@ -59,7 +59,7 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-// signin
+// signin endpoint
 userRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
@@ -78,7 +78,6 @@ userRouter.post("/signin", async (req, res) => {
     }
 
     const passwordMatch = await bcrypt.compare(password, existingUser.password);
-    console.log("Password Matched", passwordMatch);
     if (!passwordMatch) {
       return res.status(200).json({
         message: "Wrong Credentials",
@@ -97,6 +96,43 @@ userRouter.post("/signin", async (req, res) => {
         token,
       });
     }
+  } catch (error) {
+    console.log("Error during signin", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+//create Todo endpoint
+userRouter.post("/createtodo", async (req, res) => {
+  const { title, description, dueDate, status, userID } = req.body;
+  if (!title || !description || !dueDate || !status || !userID) {
+    return res.status(400).json({
+      message: "All Fields Are Mandatory",
+    });
+  }
+
+  try {
+    const findUser = await userModel.findOne({ userID });
+    if (!findUser) {
+      return res.status(400).json({
+        message: "User Not Found",
+      });
+    }
+    const todoID = new Types.ObjectId();
+    findUser.todos.push({
+      title,
+      description,
+      dueDate,
+      status,
+      todoID,
+    });
+    findUser.save();
+    console.log("findUser", findUser);
+    return res.status(200).json({
+      message: "Todo created Successfully",
+    });
   } catch (error) {
     console.log("Error during signin", error);
     res.status(500).json({
