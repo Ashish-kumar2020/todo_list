@@ -31,7 +31,7 @@ userRouter.post("/signup", async (req, res) => {
         message: "Email ID Already Registered",
       });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 5);
     const userID = new Types.ObjectId();
     const user = await userModel.create({
       userName,
@@ -73,14 +73,14 @@ userRouter.post("/signin", async (req, res) => {
   try {
     const existingUser = await userModel.findOne({ email });
     if (!existingUser) {
-      return res.status(200).json({
+      return res.status(400).json({
         message: "Email Does not exist. Please signup",
       });
     }
 
     const passwordMatch = await bcrypt.compare(password, existingUser.password);
     if (!passwordMatch) {
-      return res.status(200).json({
+      return res.status(401).json({
         message: "Wrong Credentials",
       });
     }
