@@ -276,6 +276,43 @@ userRouter.put("/editTodo", async (req, res) => {
   }
 });
 
+// Delete todo endpoint
+userRouter.delete("/deleteTodo", async (req, res) => {
+  const { userID, todoID } = req.body;
+  if (!userID || !todoID) {
+    return res.status(400).message({
+      message: "All Fields are mandatory",
+    });
+  }
+
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "No User Found",
+      });
+    }
+    const todoToDelete = new mongoose.Types.ObjectId(todoID);
+    const findTodo = userFound.todos.findIndex((t) =>
+      t.todoID.equals(todoToDelete)
+    );
+    if (findTodo === -1) {
+      return res.status(400).json({
+        message: "Todo not found",
+      });
+    }
+    userFound.todos.splice(findTodo, 1);
+    await userFound.save();
+    return res.status(200).json({
+      message: "Todo deleted successfully",
+    });
+  } catch (error) {
+    console.log("Error in Editing todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
 module.exports = {
   userRouter,
 };
