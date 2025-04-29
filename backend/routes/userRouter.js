@@ -105,6 +105,48 @@ userRouter.post("/signin", async (req, res) => {
   }
 });
 
+// Update profile endpoint
+userRouter.put("/updateProfile", async (req, res) => {
+  const {
+    userName,
+    password,
+    firstName,
+    lastName,
+    DateOfBirth,
+    email,
+    userID,
+  } = req.body;
+
+  if (!userID) {
+    return res.status(400).json({
+      message: "All Fields are mandatory",
+    });
+  }
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "No User Found",
+      });
+    }
+    if (userName) userFound.userName = userName;
+    if (password) userFound.password = password;
+    if (firstName) userFound.firstName = firstName;
+    if (lastName) userFound.lastName = lastName;
+    if (email) userFound.email = email;
+    if (DateOfBirth) userFound.DateOfBirth = DateOfBirth;
+    await userFound.save();
+    return res.status(200).json({
+      message: "UserDetails Updated Successfully",
+    });
+  } catch (error) {
+    console.log("Error in Editing todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
 //create Todo endpoint
 userRouter.post("/createtodo", async (req, res) => {
   const { title, description, dueDate, status, userID } = req.body;
