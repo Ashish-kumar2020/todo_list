@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { userModel } = require("../DB");
 const { Types } = require("mongoose");
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userRouter = Router();
@@ -234,7 +235,47 @@ userRouter.post("/fetchdoneTodo", async (req, res) => {
   }
 });
 
-// Fetch
+// Edit Todo endpoint
+userRouter.put("/editTodo", async (req, res) => {
+  const { userID, todoID, title, description, status, dueDate } = req.body;
+  if (!userID || !todoID) {
+    return res.status(400).json({
+      message: "All Fields are mandatory",
+    });
+  }
+
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "No User Found",
+      });
+    }
+    // Find for specific todo
+    const todoToFind = new mongoose.Types.ObjectId(todoID);
+    const searchTodo = userFound.todos.find((t) => t.todoID.equals(todoToFind));
+
+    if (!searchTodo) {
+      return res.status(400).json({
+        message: "No Todo Found",
+      });
+    }
+    if (title) searchTodo.title = title;
+    if (description) searchTodo.description = description;
+    if (status) searchTodo.status = status;
+    if (dueDate) searchTodo.dueDate = dueDate;
+    await userFound.save();
+    return res.status(200).json({
+      message: "Todo Updated Successfully",
+    });
+  } catch (error) {
+    console.log("Error in Editing todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
 module.exports = {
   userRouter,
 };
