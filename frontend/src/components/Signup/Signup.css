@@ -1,0 +1,13 @@
+.signup-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.signup-options-container {
+    margin-top: 40px;
+}
+
+.form-container {
+    margin-top: 40px;
+}

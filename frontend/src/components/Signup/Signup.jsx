@@ -1,0 +1,166 @@
+import React, { useState } from "react";
+import {
+  Text,
+  Button,
+  Box,
+  Stack,
+  HStack,
+  Icon,
+  Field,
+  Input,
+  InputGroup,
+  Image,
+  Grid,
+} from "@chakra-ui/react";
+import { FcGoogle } from "react-icons/fc";
+import {
+  FaFacebook,
+  FaApple,
+  FaLock,
+  FaVoicemail,
+  FaCalendarAlt,
+} from "react-icons/fa";
+import "./Signup.css";
+import { LuUser, LuCompass } from "react-icons/lu";
+const Signup = () => {
+  const stats = [
+    {
+      img: "https://todoist.b-cdn.net/assets/images/37deb75469924c6270004e36b7351d94.jpg",
+      title: "30 million+",
+      subtitle: "app downloads",
+    },
+    {
+      img: "https://todoist.b-cdn.net/assets/images/296179d0173b761dc233ecd5e8ce6717.jpg",
+      title: "15 years+",
+      subtitle: "in business",
+    },
+    {
+      img: "https://todoist.b-cdn.net/assets/images/36f9765400f603fa8ec42ff8146fbc15.jpg",
+      title: "2 billion+",
+      subtitle: "tasks completed",
+    },
+    {
+      img: "https://todoist.b-cdn.net/assets/images/303f5819b5ed1e224afcf8407064f629.jpg",
+      title: "100,000+",
+      subtitle: "team users",
+    },
+  ];
+  return (
+    <div className="signup-container">
+      <div className="signup-heading">
+        <Text fontSize="2xl" fontWeight="bold" mb={4}>
+          Signup
+        </Text>
+        <div className="signup-options-container">
+          <Box w="400px">
+            <Stack spacing={4}>
+              <Button
+                w="100%"
+                fontWeight="bold"
+                fontSize="md"
+                variant="outline"
+                borderRadius="lg"
+                py={6}
+              >
+                <FcGoogle size={24} />
+                Continue with Google
+              </Button>
+              <Button
+                w="100%"
+                fontWeight="bold"
+                fontSize="md"
+                variant="outline"
+              >
+                <Icon as={FaFacebook} />
+                Continue with Facebook
+              </Button>
+              <Button
+                w="100%"
+                fontWeight="bold"
+                fontSize="md"
+                variant="outline"
+              >
+                <Icon as={FaApple} boxSize={5} />
+                Continue with Apple
+              </Button>
+            </Stack>
+          </Box>
+        </div>
+        <div className="form-container">
+          <Box mt="10px">
+            <InputGroup startElement={<LuUser />}>
+              <Input placeholder="Username" minWidth="60px" maxWidth="400px" />
+            </InputGroup>
+          </Box>
+          <Box mt="10px">
+            <InputGroup startElement={<FaLock />}>
+              <Input placeholder="Password" minWidth="60px" maxWidth="400px" />
+            </InputGroup>
+          </Box>
+          <Box mt="10px">
+            <InputGroup startElement={<LuUser />}>
+              <Input placeholder="FirstName" minWidth="60px" maxWidth="400px" />
+            </InputGroup>
+          </Box>
+          <Box mt="10px">
+            <InputGroup startElement={<LuUser />}>
+              <Input placeholder="LastName" minWidth="60px" maxWidth="400px" />
+            </InputGroup>
+          </Box>
+          <Box mt="10px">
+            <InputGroup startElement={<FaVoicemail />}>
+              <Input placeholder="Email" minWidth="60px" maxWidth="400px" />
+            </InputGroup>
+          </Box>
+          <Box mt="10px">
+            <InputGroup startElement={<FaVoicemail />}>
+              <Input
+                type="date"
+                placeholder="Select Date"
+                minWidth="60px"
+                maxWidth="400px"
+              />
+            </InputGroup>
+          </Box>
+          <Box mt="10px">
+            <Button
+              w="100%"
+              fontWeight="bold"
+              fontSize="md"
+              variant="outline"
+              borderRadius="lg"
+              py={6}
+              bg="#DB4C3F"
+            >
+              Signup with Email
+            </Button>
+          </Box>
+        </div>
+      </div>
+      <div className="right-container">
+        <Grid templateColumns={{ base: "1fr", md: "2fr 2fr" }} gap={8}>
+          {stats.map((stat, idx) => (
+            <Box key={idx} textAlign="center">
+              <Image
+                src={stat.img}
+                alt={stat.title}
+                boxSize="180px"
+                objectFit="contain"
+                mx="auto"
+                mb={4}
+              />
+              <Text fontWeight="bold" fontSize="lg">
+                {stat.title}
+              </Text>
+              <Text fontSize="sm" color="gray.600">
+                {stat.subtitle}
+              </Text>
+            </Box>
+          ))}
+        </Grid>
+      </div>
+    </div>
+  );
+};
+
+export default Signup;
