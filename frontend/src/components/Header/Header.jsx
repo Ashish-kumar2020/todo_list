@@ -9,10 +9,10 @@ const Header = () => {
 
   return (
     <div className="header-container">
-      <div>
+      <div className="logo-container">
         <Logo />
       </div>
-      <div>
+      <div className="theme-controller">
         <Box w="100%" p="4">
           <ClientOnly fallback={<Skeleton boxSize="8" />}>
             <IconButton onClick={toggleColorMode} variant="outline" size="sm">

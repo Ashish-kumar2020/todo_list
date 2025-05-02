@@ -25,7 +25,7 @@ const Logo = () => {
         color="#DB4C3F"
         fontFamily="sans-serif"
       >
-        todoist
+        taskify
       </Text>
     </Flex>
   );

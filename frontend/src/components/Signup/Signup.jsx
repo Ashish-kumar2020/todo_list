@@ -48,44 +48,10 @@ const Signup = () => {
   return (
     <div className="signup-container">
       <div className="signup-heading">
-        <Text fontSize="2xl" fontWeight="bold" mb={4}>
+        <Text fontSize="32px" fontWeight="bold" mb={4}>
           Signup
         </Text>
-        <div className="signup-options-container">
-          <Box w="400px">
-            <Stack spacing={4}>
-              <Button
-                w="100%"
-                fontWeight="bold"
-                fontSize="md"
-                variant="outline"
-                borderRadius="lg"
-                py={6}
-              >
-                <FcGoogle size={24} />
-                Continue with Google
-              </Button>
-              <Button
-                w="100%"
-                fontWeight="bold"
-                fontSize="md"
-                variant="outline"
-              >
-                <Icon as={FaFacebook} />
-                Continue with Facebook
-              </Button>
-              <Button
-                w="100%"
-                fontWeight="bold"
-                fontSize="md"
-                variant="outline"
-              >
-                <Icon as={FaApple} boxSize={5} />
-                Continue with Apple
-              </Button>
-            </Stack>
-          </Box>
-        </div>
+
         <div className="form-container">
           <Box mt="10px">
             <InputGroup startElement={<LuUser />}>
@@ -122,7 +88,7 @@ const Signup = () => {
               />
             </InputGroup>
           </Box>
-          <Box mt="10px">
+          <Box mt="20px">
             <Button
               w="100%"
               fontWeight="bold"
@@ -134,6 +100,46 @@ const Signup = () => {
             >
               Signup with Email
             </Button>
+          </Box>
+          <Box mt="20px">
+            <Text fontSize="13px">
+              By continuing with Google, Apple, or Email, you agree to Todoist’s{" "}
+              <br />
+              <Text
+                as="span"
+                textDecoration="underline"
+                color="#DB4C3F"
+                fontWeight="medium"
+                cursor="pointer"
+              >
+                Terms of Service
+              </Text>{" "}
+              and
+              <Text
+                as="span"
+                textDecoration="underline"
+                color="#DB4C3F"
+                fontWeight="medium"
+                ml="4px"
+                cursor="pointer"
+              >
+                Privacy Policy.
+              </Text>{" "}
+            </Text>
+          </Box>
+          <Box mt="20px" textAlign="center">
+            <Text fontSize="13px">
+              Already signed up?{" "}
+              <Text
+                as="span"
+                textDecoration="underline"
+                color="#DB4C3F"
+                fontWeight="medium"
+                cursor="pointer"
+              >
+                Go to login
+              </Text>
+            </Text>
           </Box>
         </div>
       </div>

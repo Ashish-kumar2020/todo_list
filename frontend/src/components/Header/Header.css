@@ -3,3 +3,14 @@
     justify-content: space-around;
     align-items: center;
 }
+
+.logo-container {
+    position: relative;
+    right: 93px;
+}
+
+.theme-controller {
+    position: relative;
+    left: 113px;
+
+}
