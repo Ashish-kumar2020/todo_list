@@ -1,0 +1,11 @@
+.signin-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 40px;
+    height: 70vh;
+}
+
+.form-container {
+    margin-top: 40px;
+}
