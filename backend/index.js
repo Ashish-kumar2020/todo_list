@@ -17,7 +17,10 @@ app.use(
 app.use("/api/v1/user", userRouter);
 async function main() {
   try {
-    await mongoose.connect(process.env.MONGO_AUTH_URL);
+    await mongoose.connect(process.env.MONGO_AUTH_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("Connected to DB");
     app.listen(PORT_NUMBER, () => {
       console.log(
