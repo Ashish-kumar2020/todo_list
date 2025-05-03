@@ -23,6 +23,14 @@ import {
 import "./Signin.css";
 
 const Signin = () => {
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  function submitSignInDetails() {
+    console.log(userData);
+  }
   return (
     <div className="signin-container">
       <div className="signin-heading">
@@ -33,12 +41,29 @@ const Signin = () => {
         <div className="form-container">
           <Box mt="10px">
             <InputGroup startElement={<FaVoicemail />}>
-              <Input placeholder="Email" minWidth="60px" maxWidth="400px" />
+              <Input
+                placeholder="Email"
+                minWidth="60px"
+                maxWidth="400px"
+                value={userData.email}
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
+              />
             </InputGroup>
           </Box>
           <Box mt="10px">
             <InputGroup startElement={<FaLock />}>
-              <Input placeholder="Password" minWidth="60px" maxWidth="400px" />
+              <Input
+                type="password"
+                placeholder="Password"
+                minWidth="60px"
+                maxWidth="400px"
+                value={userData.password}
+                onChange={(e) =>
+                  setUserData({ ...userData, password: e.target.value })
+                }
+              />
             </InputGroup>
           </Box>
 
@@ -51,6 +76,7 @@ const Signin = () => {
               borderRadius="lg"
               py={6}
               bg="#DB4C3F"
+              onClick={submitSignInDetails}
             >
               Login
             </Button>
