@@ -45,6 +45,19 @@ const Signup = () => {
       subtitle: "team users",
     },
   ];
+  const [data, setData] = useState({
+    userName: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    DateOfBirth: "",
+  });
+
+  function submitUserData() {
+    console.log(data);
+  }
+
   return (
     <div className="signup-container">
       <div className="signup-heading">
@@ -55,27 +68,60 @@ const Signup = () => {
         <div className="form-container">
           <Box mt="10px">
             <InputGroup startElement={<LuUser />}>
-              <Input placeholder="Username" minWidth="60px" maxWidth="400px" />
+              <Input
+                placeholder="Username"
+                minWidth="60px"
+                maxWidth="400px"
+                value={data.userName}
+                onChange={(e) => setData({ ...data, userName: e.target.value })}
+              />
             </InputGroup>
           </Box>
           <Box mt="10px">
             <InputGroup startElement={<FaLock />}>
-              <Input placeholder="Password" minWidth="60px" maxWidth="400px" />
+              <Input
+                placeholder="Password"
+                type="password"
+                minWidth="60px"
+                maxWidth="400px"
+                value={data.password}
+                onChange={(e) => setData({ ...data, password: e.target.value })}
+              />
             </InputGroup>
           </Box>
           <Box mt="10px">
             <InputGroup startElement={<LuUser />}>
-              <Input placeholder="FirstName" minWidth="60px" maxWidth="400px" />
+              <Input
+                placeholder="FirstName"
+                minWidth="60px"
+                maxWidth="400px"
+                value={data.firstName}
+                onChange={(e) =>
+                  setData({ ...data, firstName: e.target.value })
+                }
+              />
             </InputGroup>
           </Box>
           <Box mt="10px">
             <InputGroup startElement={<LuUser />}>
-              <Input placeholder="LastName" minWidth="60px" maxWidth="400px" />
+              <Input
+                placeholder="LastName"
+                minWidth="60px"
+                maxWidth="400px"
+                value={data.lastName}
+                onChange={(e) => setData({ ...data, lastName: e.target.value })}
+              />
             </InputGroup>
           </Box>
           <Box mt="10px">
             <InputGroup startElement={<FaVoicemail />}>
-              <Input placeholder="Email" minWidth="60px" maxWidth="400px" />
+              <Input
+                placeholder="Email"
+                minWidth="60px"
+                maxWidth="400px"
+                value={data.email}
+                onChange={(e) => setData({ ...data, email: e.target.value })}
+              />
             </InputGroup>
           </Box>
           <Box mt="10px">
@@ -85,6 +131,10 @@ const Signup = () => {
                 placeholder="Select Date"
                 minWidth="60px"
                 maxWidth="400px"
+                value={data.DateOfBirth}
+                onChange={(e) =>
+                  setData({ ...data, DateOfBirth: e.target.value })
+                }
               />
             </InputGroup>
           </Box>
@@ -97,6 +147,7 @@ const Signup = () => {
               borderRadius="lg"
               py={6}
               bg="#DB4C3F"
+              onClick={submitUserData}
             >
               Signup with Email
             </Button>
