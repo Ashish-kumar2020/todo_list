@@ -21,15 +21,28 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import "./Signin.css";
-
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 const Signin = () => {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
 
+  const signinMutation = useMutation({
+    mutationFn: (userData) => {
+      return axios.post(import.meta.env.VITE_API_URL_SIGNIN_ROUTE, userData);
+    },
+    onSuccess: (res) => {
+      console.log(res.data);
+    },
+    onError: (err) => {
+      console.error("Signup", err);
+    },
+  });
   function submitSignInDetails() {
     console.log(userData);
+    signinMutation.mutate(userData);
   }
   return (
     <div className="signin-container">

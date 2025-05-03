@@ -24,7 +24,7 @@ import "./Signup.css";
 import { LuUser } from "react-icons/lu";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import dotenv from "dotenv";
+
 const Signup = () => {
   const stats = [
     {
