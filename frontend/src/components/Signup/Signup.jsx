@@ -21,7 +21,10 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import "./Signup.css";
-import { LuUser, LuCompass } from "react-icons/lu";
+import { LuUser } from "react-icons/lu";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import dotenv from "dotenv";
 const Signup = () => {
   const stats = [
     {
@@ -45,7 +48,7 @@ const Signup = () => {
       subtitle: "team users",
     },
   ];
-  const [data, setData] = useState({
+  const [userData, setData] = useState({
     userName: "",
     password: "",
     firstName: "",
@@ -54,10 +57,21 @@ const Signup = () => {
     DateOfBirth: "",
   });
 
+  const signupMutation = useMutation({
+    mutationFn: (userData) => {
+      return axios.post(import.meta.env.VITE_API_URL_SIGNUP_ROUTE, userData);
+    },
+    onSuccess: (res) => {
+      console.log(res.data);
+    },
+    onError: (err) => {
+      console.error("Signup", err);
+    },
+  });
   function submitUserData() {
-    console.log(data);
+    console.log(userData);
+    signupMutation.mutate(userData);
   }
-
   return (
     <div className="signup-container">
       <div className="signup-heading">
@@ -72,8 +86,10 @@ const Signup = () => {
                 placeholder="Username"
                 minWidth="60px"
                 maxWidth="400px"
-                value={data.userName}
-                onChange={(e) => setData({ ...data, userName: e.target.value })}
+                value={userData.userName}
+                onChange={(e) =>
+                  setData({ ...userData, userName: e.target.value })
+                }
               />
             </InputGroup>
           </Box>
@@ -84,8 +100,10 @@ const Signup = () => {
                 type="password"
                 minWidth="60px"
                 maxWidth="400px"
-                value={data.password}
-                onChange={(e) => setData({ ...data, password: e.target.value })}
+                value={userData.password}
+                onChange={(e) =>
+                  setData({ ...userData, password: e.target.value })
+                }
               />
             </InputGroup>
           </Box>
@@ -95,9 +113,9 @@ const Signup = () => {
                 placeholder="FirstName"
                 minWidth="60px"
                 maxWidth="400px"
-                value={data.firstName}
+                value={userData.firstName}
                 onChange={(e) =>
-                  setData({ ...data, firstName: e.target.value })
+                  setData({ ...userData, firstName: e.target.value })
                 }
               />
             </InputGroup>
@@ -108,8 +126,10 @@ const Signup = () => {
                 placeholder="LastName"
                 minWidth="60px"
                 maxWidth="400px"
-                value={data.lastName}
-                onChange={(e) => setData({ ...data, lastName: e.target.value })}
+                value={userData.lastName}
+                onChange={(e) =>
+                  setData({ ...userData, lastName: e.target.value })
+                }
               />
             </InputGroup>
           </Box>
@@ -119,8 +139,10 @@ const Signup = () => {
                 placeholder="Email"
                 minWidth="60px"
                 maxWidth="400px"
-                value={data.email}
-                onChange={(e) => setData({ ...data, email: e.target.value })}
+                value={userData.email}
+                onChange={(e) =>
+                  setData({ ...userData, email: e.target.value })
+                }
               />
             </InputGroup>
           </Box>
@@ -131,9 +153,9 @@ const Signup = () => {
                 placeholder="Select Date"
                 minWidth="60px"
                 maxWidth="400px"
-                value={data.DateOfBirth}
+                value={userData.DateOfBirth}
                 onChange={(e) =>
-                  setData({ ...data, DateOfBirth: e.target.value })
+                  setData({ ...userData, DateOfBirth: e.target.value })
                 }
               />
             </InputGroup>
