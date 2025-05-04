@@ -137,6 +137,7 @@ const Signin = () => {
                 color="#DB4C3F"
                 fontWeight="medium"
                 cursor="pointer"
+                onClick={() => navigate("/")}
               >
                 Signup
               </Text>

@@ -222,6 +222,7 @@ const Signup = () => {
                 color="#DB4C3F"
                 fontWeight="medium"
                 cursor="pointer"
+                onClick={() => navigate("/login")}
               >
                 Go to login
               </Text>
