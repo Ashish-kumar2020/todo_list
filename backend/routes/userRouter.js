@@ -46,6 +46,7 @@ userRouter.post("/signup", async (req, res) => {
     return res.status(200).json({
       message: "User Created Successfully",
       user: user,
+      status: 200,
     });
   } catch (error) {
     console.log("Error during signup", error);
@@ -95,6 +96,7 @@ userRouter.post("/signin", async (req, res) => {
         message: "Logged in Successfully",
         existingUser,
         token,
+        status: 200,
       });
     }
   } catch (error) {

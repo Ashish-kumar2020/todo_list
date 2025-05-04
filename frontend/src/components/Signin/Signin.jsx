@@ -23,18 +23,26 @@ import {
 import "./Signin.css";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Signin = () => {
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
 
+  const navigate = useNavigate();
   const signinMutation = useMutation({
     mutationFn: (userData) => {
       return axios.post(import.meta.env.VITE_API_URL_SIGNIN_ROUTE, userData);
     },
     onSuccess: (res) => {
-      console.log(res.data);
+      if (res.data.status === 200) {
+        setUserData({
+          email: "",
+          password: "",
+        });
+        navigate("/body");
+      }
     },
     onError: (err) => {
       console.error("Signup", err);

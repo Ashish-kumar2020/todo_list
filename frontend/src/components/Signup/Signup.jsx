@@ -24,6 +24,7 @@ import "./Signup.css";
 import { LuUser } from "react-icons/lu";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const stats = [
@@ -57,12 +58,24 @@ const Signup = () => {
     DateOfBirth: "",
   });
 
+  const navigate = useNavigate();
+
   const signupMutation = useMutation({
     mutationFn: (userData) => {
       return axios.post(import.meta.env.VITE_API_URL_SIGNUP_ROUTE, userData);
     },
     onSuccess: (res) => {
-      console.log(res.data);
+      if (res.data.status === 200) {
+        setData({
+          userName: "",
+          password: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          DateOfBirth: "",
+        });
+        navigate("/login");
+      }
     },
     onError: (err) => {
       console.error("Signup", err);
