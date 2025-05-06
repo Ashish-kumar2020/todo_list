@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import StickyWall from "./components/StickyWall/StickyWall";
 import CreateTodo from "./components/Todo/CreateTodo";
 import HomePage from "./components/HomePage/HomePage";
+import Profile from "./components/Profile/Profile";
 function App() {
   const router = createBrowserRouter([
     {
@@ -17,7 +18,7 @@ function App() {
       element: <Signin />,
     },
     {
-      path: "/body",
+      path: "/home",
       element: <Body />,
       children: [
         {
@@ -31,6 +32,10 @@ function App() {
         {
           path: "createTodo",
           element: <CreateTodo />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
         },
       ],
     },
