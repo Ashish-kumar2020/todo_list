@@ -2,6 +2,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    height: 70px;
 }
 
 .logo-container {
@@ -13,4 +14,23 @@
     position: relative;
     left: 113px;
 
+}
+
+.header-list {
+    display: flex;
+    justify-content: space-evenly;
+    width: 520px;
+    align-items: center;
+}
+
+ul li {
+    cursor: pointer;
+}
+
+li {
+    transition: color 0.3s ease-in-out;
+}
+
+li:hover {
+    color: #DB4C3F;
 }

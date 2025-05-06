@@ -13,13 +13,20 @@ const Header = () => {
         <Logo />
       </div>
       <div className="theme-controller">
-        <Box w="100%" p="4">
-          <ClientOnly fallback={<Skeleton boxSize="8" />}>
-            <IconButton onClick={toggleColorMode} variant="outline" size="sm">
-              {colorMode === "light" ? <LuSun /> : <LuMoon />}
-            </IconButton>
-          </ClientOnly>
-        </Box>
+        <ul className="header-list">
+          <li>Home</li>
+          <li>Profile</li>
+          <li>Sticky Wall</li>
+          <li>Logout</li>
+          <li>
+            {" "}
+            <ClientOnly fallback={<Skeleton boxSize="8" />}>
+              <IconButton onClick={toggleColorMode} variant="outline" size="sm">
+                {colorMode === "light" ? <LuSun /> : <LuMoon />}
+              </IconButton>
+            </ClientOnly>
+          </li>
+        </ul>
       </div>
     </div>
   );
