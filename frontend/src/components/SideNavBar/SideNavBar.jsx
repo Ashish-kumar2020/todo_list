@@ -19,16 +19,19 @@ import {
   LuSettings2,
   LuLogOut,
 } from "react-icons/lu";
-import { FaCalendarDay, FaMastodon } from "react-icons/fa";
+import { FaCalendarDay, FaMastodon, FaBars } from "react-icons/fa";
 const SideNavBar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const toggleSideBar = () => {};
 
+  const handleSideNavBar = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <Drawer.Root placement={"start"}>
       <Drawer.Trigger asChild>
-        <Button variant="outline" size="md">
-          Open Drawer
+        <Button variant="outline" size="md" onClick={handleSideNavBar}>
+          <FaBars />
         </Button>
       </Drawer.Trigger>
       <Portal isOpen={isOpen}>
