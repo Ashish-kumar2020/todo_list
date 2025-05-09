@@ -152,7 +152,8 @@ userRouter.put("/updateProfile", async (req, res) => {
 //create Todo endpoint
 userRouter.post("/createtodo", async (req, res) => {
   const { title, description, dueDate, status, userID, tagName } = req.body;
-  if (!title || !description || !dueDate || !status || !userID || tagName) {
+  console.log(title, description, dueDate, status, userID, tagName);
+  if (!title || !description || !dueDate || !status || !userID || !tagName) {
     return res.status(400).json({
       message: "All Fields Are Mandatory",
     });

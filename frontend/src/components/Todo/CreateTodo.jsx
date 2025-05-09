@@ -17,6 +17,7 @@ import {
 import { LuListTodo } from "react-icons/lu";
 import { FaVoicemail } from "react-icons/fa";
 import { useDispatch } from "react-redux";
+import { createTodoApiCall } from "../../slice/createTodoSlice";
 import { fetchTodos } from "../../slice/todoSlice";
 const CreateTodo = ({ isOpen, onClose }) => {
   const [todoDetails, setTodoDetails] = useState({
@@ -24,6 +25,7 @@ const CreateTodo = ({ isOpen, onClose }) => {
     description: "",
     dueDate: "",
     status: "",
+    userID: "680de41483e5f28bb0974fba",
     tagName: "",
   });
 
@@ -42,15 +44,17 @@ const CreateTodo = ({ isOpen, onClose }) => {
       { label: "Done", value: "Done" },
     ],
   });
-
-  const handleCreateTodoData = () => {
-    console.log("Todo Data", todoDetails);
-  };
-
   const dispatch = useDispatch();
-  const fetchTagName = () => {
-    dispatch(fetchTodos());
+  const handleCreateTodoData = async () => {
+    try {
+      await dispatch(createTodoApiCall(todoDetails)).unwrap();
+      dispatch(fetchTodos({ userID: "680de41483e5f28bb0974fba" }));
+      onClose();
+    } catch (error) {
+      console.error("Error creating todo:", error);
+    }
   };
+
   return (
     <Drawer.Root open={isOpen} onClose={onClose} size="lg">
       <Portal>
