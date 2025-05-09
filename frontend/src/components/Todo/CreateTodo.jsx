@@ -16,6 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { LuListTodo } from "react-icons/lu";
 import { FaVoicemail } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { fetchTodos } from "../../slice/todoSlice";
 const CreateTodo = ({ isOpen, onClose }) => {
   const [todoDetails, setTodoDetails] = useState({
     title: "",
@@ -45,6 +47,10 @@ const CreateTodo = ({ isOpen, onClose }) => {
     console.log("Todo Data", todoDetails);
   };
 
+  const dispatch = useDispatch();
+  const fetchTagName = () => {
+    dispatch(fetchTodos());
+  };
   return (
     <Drawer.Root open={isOpen} onClose={onClose} size="lg">
       <Portal>

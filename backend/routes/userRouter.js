@@ -333,6 +333,35 @@ userRouter.post("/fetchdoneTodo", async (req, res) => {
   }
 });
 
+// Fetch all todos
+userRouter.post("/fetchalltodos", async (req, res) => {
+  const { userID } = req.body;
+  if (!userID) {
+    return res.status(400).json({
+      message: "Pass the userID",
+    });
+  }
+
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "User Todos",
+      todos: userFound.todos,
+    });
+  } catch (error) {
+    console.log("Error in fetching todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
 // Edit Todo endpoint
 userRouter.put("/editTodo", async (req, res) => {
   const { userID, todoID, title, description, status, dueDate } = req.body;

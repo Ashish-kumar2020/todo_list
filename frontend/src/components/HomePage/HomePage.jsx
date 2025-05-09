@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   Container,
@@ -11,6 +11,8 @@ import {
 } from "@chakra-ui/react";
 import "./HomePage.css";
 import CreateTodo from "../Todo/CreateTodo";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTodos } from "../../slice/todoSlice";
 const HomePage = () => {
   const items = [
     { value: "a", title: "First Item", text: "Some value 1..." },
@@ -18,6 +20,7 @@ const HomePage = () => {
     { value: "c", title: "Third Item", text: "Some value 3..." },
   ];
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState();
   const handleShowTodoComponent = () => {
     setIsDrawerOpen(true);
   };
@@ -25,6 +28,17 @@ const HomePage = () => {
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
   };
+  const dispatch = useDispatch();
+  const { data, isError, isLoading } = useSelector((state) => state.todo);
+  useEffect(() => {
+    dispatch(fetchTodos({ userID: "680de41483e5f28bb0974fba" }));
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && data?.todos) {
+      setCurrentTodo(data.todos);
+    }
+  }, [isLoading, data]);
   return (
     <div className="todo-container">
       <div>
@@ -49,27 +63,36 @@ const HomePage = () => {
           <CreateTodo isOpen={isDrawerOpen} onClose={handleCloseDrawer} />
           <div className="todo-display">
             <Accordion.Root collapsible w={800}>
-              {items.map((item, index) => (
-                <Accordion.Item key={index} value={item.value}>
-                  <Accordion.ItemTrigger>
-                    <Span flex="1">{item.title}</Span>
-                    <Accordion.ItemIndicator />
-                  </Accordion.ItemTrigger>
-                  <Accordion.ItemContent>
-                    <Accordion.ItemBody>{item.text}</Accordion.ItemBody>
-                  </Accordion.ItemContent>
-                  <Accordion.ItemContent>
-                    <Accordion.ItemBody>
-                      <Button bg="#DB4C3F" color="#ffff" w="70px" h="40px">
-                        Delete
-                      </Button>
-                      <Button bg="green" color="#ffff" ml={5} w="70px" h="40px">
-                        Edit
-                      </Button>
-                    </Accordion.ItemBody>
-                  </Accordion.ItemContent>
-                </Accordion.Item>
-              ))}
+              {currentTodo &&
+                currentTodo.map((item, index) => (
+                  <Accordion.Item key={item.todoID} value={item.todoID}>
+                    <Accordion.ItemTrigger>
+                      <Span flex="1">{item.title}</Span>
+                      <Accordion.ItemIndicator />
+                    </Accordion.ItemTrigger>
+                    <Accordion.ItemContent>
+                      <Accordion.ItemBody>
+                        {item.description}
+                      </Accordion.ItemBody>
+                    </Accordion.ItemContent>
+                    <Accordion.ItemContent>
+                      <Accordion.ItemBody>
+                        <Button bg="#DB4C3F" color="#ffff" w="70px" h="40px">
+                          Delete
+                        </Button>
+                        <Button
+                          bg="green"
+                          color="#ffff"
+                          ml={5}
+                          w="70px"
+                          h="40px"
+                        >
+                          Edit
+                        </Button>
+                      </Accordion.ItemBody>
+                    </Accordion.ItemContent>
+                  </Accordion.Item>
+                ))}
             </Accordion.Root>
           </div>
         </Container>
