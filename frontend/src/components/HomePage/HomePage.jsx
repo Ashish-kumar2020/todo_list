@@ -60,11 +60,11 @@ const HomePage = () => {
                   </Accordion.ItemContent>
                   <Accordion.ItemContent>
                     <Accordion.ItemBody>
-                      <Button bg="#DB4C3F" color="#ffff">
+                      <Button bg="#DB4C3F" color="#ffff" w="70px" h="40px">
                         Delete
                       </Button>
-                      <Button bg="#DB4C3F" color="#ffff">
-                        Delete
+                      <Button bg="green" color="#ffff" ml={5} w="70px" h="40px">
+                        Edit
                       </Button>
                     </Accordion.ItemBody>
                   </Accordion.ItemContent>
