@@ -8,6 +8,11 @@ const todoSchema = new Schema({
   dueDate: String,
   status: String,
   todoID: ObjectId,
+  tagName: String,
+});
+
+const tagNameSchema = new Schema({
+  tagName: [String],
 });
 
 const userSchema = new Schema({
@@ -23,8 +28,9 @@ const userSchema = new Schema({
 
 const todoModel = mongoose.model("todos", todoSchema);
 const userModel = mongoose.model("users_datas", userSchema);
-
+const tagModel = mongoose.model("tags", tagNameSchema);
 module.exports = {
   todoModel,
   userModel,
+  tagModel,
 };

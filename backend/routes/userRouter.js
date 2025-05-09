@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { userModel } = require("../DB");
+const { userModel, tagModel } = require("../DB");
 const { Types } = require("mongoose");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
@@ -151,8 +151,8 @@ userRouter.put("/updateProfile", async (req, res) => {
 
 //create Todo endpoint
 userRouter.post("/createtodo", async (req, res) => {
-  const { title, description, dueDate, status, userID } = req.body;
-  if (!title || !description || !dueDate || !status || !userID) {
+  const { title, description, dueDate, status, userID, tagName } = req.body;
+  if (!title || !description || !dueDate || !status || !userID || tagName) {
     return res.status(400).json({
       message: "All Fields Are Mandatory",
     });
@@ -172,6 +172,7 @@ userRouter.post("/createtodo", async (req, res) => {
       dueDate,
       status,
       todoID,
+      tagName,
     });
     findUser.save();
     return res.status(200).json({
@@ -179,6 +180,59 @@ userRouter.post("/createtodo", async (req, res) => {
     });
   } catch (error) {
     console.log("Error in creating todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+// Create tagNames
+userRouter.post("/createTagName", async (req, res) => {
+  const { tagName } = req.body;
+  if (!tagName) {
+    return res.status(400).json({
+      message: "All fields are mandatory",
+    });
+  }
+
+  try {
+    const tagNameID = "681dfbc0ea82e58f3addddbb";
+    const searchTagNameID = await tagModel.findById(tagNameID);
+    if (!searchTagNameID) {
+      return res.status(400).json({
+        message: "Tag Document ID not found",
+      });
+    }
+    searchTagNameID.tagName.push(tagName);
+    await searchTagNameID.save();
+    return res.status(200).json({
+      message: "Tag name update successfully",
+      searchTagNameID,
+    });
+  } catch (error) {
+    console.log("Error in Creatig TagName", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+// Fetch all tagNames
+userRouter.get("/fetchAllTagName", async (req, res) => {
+  try {
+    const tagId = "681dfbc0ea82e58f3addddbb";
+    const searchTagID = await tagModel.findById(tagId);
+    if (!searchTagID) {
+      return res.status(400).json({
+        message: "Tag ID not found",
+      });
+    }
+    return res.status(200).json({
+      message: "Tag Names Fetched Successfully",
+      searchTagID,
+    });
+  } catch (error) {
+    console.log("Error in fetching tagName", error);
     res.status(500).json({
       message: "Internal Server Error",
     });
