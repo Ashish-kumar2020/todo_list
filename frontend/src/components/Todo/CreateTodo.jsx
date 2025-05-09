@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   CloseButton,
@@ -15,20 +15,22 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { LuListTodo } from "react-icons/lu";
-import {
-  FaFacebook,
-  FaApple,
-  FaLock,
-  FaVoicemail,
-  FaCalendarAlt,
-} from "react-icons/fa";
+import { FaVoicemail } from "react-icons/fa";
 const CreateTodo = ({ isOpen, onClose }) => {
+  const [todoDetails, setTodoDetails] = useState({
+    title: "",
+    description: "",
+    dueDate: "",
+    status: "",
+    tagName: "",
+  });
+
   const frameworks = createListCollection({
     items: [
-      { label: "React.js", value: "react" },
-      { label: "Vue.js", value: "vue" },
-      { label: "Angular", value: "angular" },
-      { label: "Svelte", value: "svelte" },
+      { label: "Personal", value: "Personal" },
+      { label: "Work", value: "Work" },
+      { label: "Shopping", value: "Shopping" },
+      { label: "Party", value: "Party" },
     ],
   });
   const taskStatusDetails = createListCollection({
@@ -38,6 +40,10 @@ const CreateTodo = ({ isOpen, onClose }) => {
       { label: "Done", value: "Done" },
     ],
   });
+
+  const handleCreateTodoData = () => {
+    console.log("Todo Data", todoDetails);
+  };
 
   return (
     <Drawer.Root open={isOpen} onClose={onClose} size="lg">
@@ -54,23 +60,44 @@ const CreateTodo = ({ isOpen, onClose }) => {
 
             <Drawer.Body>
               <InputGroup startElement={<LuListTodo />}>
-                <Input placeholder="Add Todo Title" />
+                <Input
+                  placeholder="Add Todo Title"
+                  value={todoDetails.title}
+                  onChange={(e) =>
+                    setTodoDetails({ ...todoDetails, title: e.target.value })
+                  }
+                />
               </InputGroup>
 
               <Textarea
                 placeholder="Add Todo Description..."
                 mt={5}
                 rows={10}
+                value={todoDetails.description}
+                onChange={(e) =>
+                  setTodoDetails({
+                    ...todoDetails,
+                    description: e.target.value,
+                  })
+                }
               />
 
               {/* Select List with horizontal layout */}
-              <Select.Root collection={frameworks} size="sm" mt={2}>
+              <Select.Root
+                collection={frameworks}
+                size="sm"
+                mt={2}
+                selecteditem={todoDetails.status}
+                onChange={(e) =>
+                  setTodoDetails({ ...todoDetails, status: e.target.value })
+                }
+              >
                 <Select.HiddenSelect />
                 <Flex align="center" gap={20} mt={4} mr={20}>
                   <Select.Label whiteSpace="nowrap">Select Tag :</Select.Label>
                   <Select.Control width="250px">
                     <Select.Trigger>
-                      <Select.ValueText placeholder="Select Task Type" />
+                      <Select.ValueText placeholder="Select Tag Type" />
                     </Select.Trigger>
                     <Select.IndicatorGroup>
                       <Select.Indicator />
@@ -107,12 +134,26 @@ const CreateTodo = ({ isOpen, onClose }) => {
                     placeholder="Select Date"
                     minWidth="60px"
                     maxWidth="250px"
+                    value={todoDetails.dueDate}
+                    onChange={(e) =>
+                      setTodoDetails({
+                        ...todoDetails,
+                        dueDate: e.target.value,
+                      })
+                    }
                   />
                 </InputGroup>
               </Flex>
               {/* Set Task Current Status */}
 
-              <Select.Root collection={taskStatusDetails} size="sm">
+              <Select.Root
+                collection={taskStatusDetails}
+                size="sm"
+                selecteditem={todoDetails.tagName}
+                onChange={(e) =>
+                  setTodoDetails({ ...todoDetails, tagName: e.target.value })
+                }
+              >
                 <Select.HiddenSelect />
                 <Flex align={"center"} gap={9} mt={2}>
                   <Select.Label>Select Task Type :</Select.Label>
@@ -142,7 +183,7 @@ const CreateTodo = ({ isOpen, onClose }) => {
               <Button variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button bg="#DB4C3F" color="#ffff">
+              <Button bg="#DB4C3F" color="#ffff" onClick={handleCreateTodoData}>
                 Add Todo
               </Button>
             </Drawer.Footer>
