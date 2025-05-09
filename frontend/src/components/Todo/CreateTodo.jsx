@@ -66,10 +66,8 @@ const CreateTodo = ({ isOpen, onClose }) => {
               {/* Select List with horizontal layout */}
               <Select.Root collection={frameworks} size="sm" mt={2}>
                 <Select.HiddenSelect />
-                <Flex align="center" gap={10} mt={4} mr={20}>
-                  <Select.Label whiteSpace="nowrap">
-                    Select Task type :
-                  </Select.Label>
+                <Flex align="center" gap={20} mt={4} mr={20}>
+                  <Select.Label whiteSpace="nowrap">Select Tag :</Select.Label>
                   <Select.Control width="250px">
                     <Select.Trigger>
                       <Select.ValueText placeholder="Select Task Type" />
@@ -116,8 +114,8 @@ const CreateTodo = ({ isOpen, onClose }) => {
 
               <Select.Root collection={taskStatusDetails} size="sm">
                 <Select.HiddenSelect />
-                <Flex align={"center"} gap={20} mt={2}>
-                  <Select.Label>Select Tag :</Select.Label>
+                <Flex align={"center"} gap={9} mt={2}>
+                  <Select.Label>Select Task Type :</Select.Label>
                   <Select.Control width="250px">
                     <Select.Trigger>
                       <Select.ValueText placeholder="Select Task Status" />
