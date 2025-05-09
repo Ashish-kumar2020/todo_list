@@ -43,7 +43,7 @@ const HomePage = () => {
               bg="#DB4C3F"
               onClick={handleShowTodoComponent}
             >
-              Add Task
+              Create Task
             </Button>
           </Box>
           <CreateTodo isOpen={isDrawerOpen} onClose={handleCloseDrawer} />
