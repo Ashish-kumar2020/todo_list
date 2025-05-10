@@ -3,23 +3,14 @@ import {
   Text,
   Button,
   Box,
-  Stack,
-  HStack,
-  Icon,
-  Field,
   Input,
   InputGroup,
   Image,
   Grid,
+  Flex,
+  Stack,
 } from "@chakra-ui/react";
-import { FcGoogle } from "react-icons/fc";
-import {
-  FaFacebook,
-  FaApple,
-  FaLock,
-  FaVoicemail,
-  FaCalendarAlt,
-} from "react-icons/fa";
+import { FaLock, FaVoicemail } from "react-icons/fa";
 import "./Signup.css";
 import { LuUser } from "react-icons/lu";
 import { useMutation } from "@tanstack/react-query";
@@ -49,6 +40,7 @@ const Signup = () => {
       subtitle: "team users",
     },
   ];
+
   const [userData, setData] = useState({
     userName: "",
     password: "",
@@ -61,9 +53,8 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const signupMutation = useMutation({
-    mutationFn: (userData) => {
-      return axios.post(import.meta.env.VITE_API_URL_SIGNUP_ROUTE, userData);
-    },
+    mutationFn: (userData) =>
+      axios.post(import.meta.env.VITE_API_URL_SIGNUP_ROUTE, userData),
     onSuccess: (res) => {
       if (res.data.status === 200) {
         setData({
@@ -81,99 +72,93 @@ const Signup = () => {
       console.error("Signup", err);
     },
   });
+
   function submitUserData() {
-    console.log(userData);
     signupMutation.mutate(userData);
   }
+
   return (
-    <div className="signup-container">
-      <div className="signup-heading">
+    <Flex
+      direction={{ base: "column", md: "row" }}
+      className="signup-container"
+      p={{ base: 4, md: 8 }}
+      gap={8}
+    >
+      <Box
+        className="signup-heading"
+        flex={1}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Text fontSize="32px" fontWeight="bold" mb={4}>
           Signup
         </Text>
 
-        <div className="form-container">
-          <Box mt="10px">
-            <InputGroup startElement={<LuUser />}>
+        <Box className="form-container" w="100%" maxW="400px">
+          <Stack spacing={4}>
+            <InputGroup>
               <Input
                 placeholder="Username"
-                minWidth="60px"
-                maxWidth="400px"
                 value={userData.userName}
                 onChange={(e) =>
                   setData({ ...userData, userName: e.target.value })
                 }
               />
             </InputGroup>
-          </Box>
-          <Box mt="10px">
-            <InputGroup startElement={<FaLock />}>
+
+            <InputGroup>
               <Input
-                placeholder="Password"
                 type="password"
-                minWidth="60px"
-                maxWidth="400px"
+                placeholder="Password"
                 value={userData.password}
                 onChange={(e) =>
                   setData({ ...userData, password: e.target.value })
                 }
               />
             </InputGroup>
-          </Box>
-          <Box mt="10px">
-            <InputGroup startElement={<LuUser />}>
+
+            <InputGroup>
               <Input
-                placeholder="FirstName"
-                minWidth="60px"
-                maxWidth="400px"
+                placeholder="First Name"
                 value={userData.firstName}
                 onChange={(e) =>
                   setData({ ...userData, firstName: e.target.value })
                 }
               />
             </InputGroup>
-          </Box>
-          <Box mt="10px">
-            <InputGroup startElement={<LuUser />}>
+
+            <InputGroup>
               <Input
-                placeholder="LastName"
-                minWidth="60px"
-                maxWidth="400px"
+                placeholder="Last Name"
                 value={userData.lastName}
                 onChange={(e) =>
                   setData({ ...userData, lastName: e.target.value })
                 }
               />
             </InputGroup>
-          </Box>
-          <Box mt="10px">
-            <InputGroup startElement={<FaVoicemail />}>
+
+            <InputGroup>
               <Input
                 placeholder="Email"
-                minWidth="60px"
-                maxWidth="400px"
                 value={userData.email}
                 onChange={(e) =>
                   setData({ ...userData, email: e.target.value })
                 }
               />
             </InputGroup>
-          </Box>
-          <Box mt="10px">
-            <InputGroup startElement={<FaVoicemail />}>
+
+            <InputGroup>
               <Input
                 type="date"
-                placeholder="Select Date"
-                minWidth="60px"
-                maxWidth="400px"
                 value={userData.DateOfBirth}
                 onChange={(e) =>
                   setData({ ...userData, DateOfBirth: e.target.value })
                 }
               />
             </InputGroup>
-          </Box>
-          <Box mt="20px">
+
             <Button
               w="100%"
               fontWeight="bold"
@@ -182,15 +167,15 @@ const Signup = () => {
               borderRadius="lg"
               py={6}
               bg="#DB4C3F"
+              color="white"
+              _hover={{ bg: "#c64538" }}
               onClick={submitUserData}
             >
               Signup with Email
             </Button>
-          </Box>
-          <Box mt="20px">
-            <Text fontSize="13px">
+
+            <Text fontSize="13px" textAlign="center">
               By continuing with Google, Apple, or Email, you agree to Todoist’s{" "}
-              <br />
               <Text
                 as="span"
                 textDecoration="underline"
@@ -200,7 +185,7 @@ const Signup = () => {
               >
                 Terms of Service
               </Text>{" "}
-              and
+              and{" "}
               <Text
                 as="span"
                 textDecoration="underline"
@@ -210,11 +195,10 @@ const Signup = () => {
                 cursor="pointer"
               >
                 Privacy Policy.
-              </Text>{" "}
+              </Text>
             </Text>
-          </Box>
-          <Box mt="20px" textAlign="center">
-            <Text fontSize="13px">
+
+            <Text fontSize="13px" textAlign="center">
               Already signed up?{" "}
               <Text
                 as="span"
@@ -227,11 +211,20 @@ const Signup = () => {
                 Go to login
               </Text>
             </Text>
-          </Box>
-        </div>
-      </div>
-      <div className="right-container">
-        <Grid templateColumns={{ base: "1fr", md: "2fr 2fr" }} gap={8}>
+          </Stack>
+        </Box>
+      </Box>
+
+      <Box
+        className="right-container"
+        flex={1}
+        display={{ base: "none", md: "block" }}
+      >
+        <Grid
+          templateColumns={{ base: "1fr", sm: "1fr 1fr" }}
+          gap={6}
+          justifyContent="center"
+        >
           {stats.map((stat, idx) => (
             <Box key={idx} textAlign="center">
               <Image
@@ -251,8 +244,8 @@ const Signup = () => {
             </Box>
           ))}
         </Grid>
-      </div>
-    </div>
+      </Box>
+    </Flex>
   );
 };
 
