@@ -7,6 +7,8 @@ import StickyWall from "./components/StickyWall/StickyWall";
 import CreateTodo from "./components/Todo/CreateTodo";
 import HomePage from "./components/HomePage/HomePage";
 import Profile from "./components/Profile/Profile";
+import ErrorPage from "./components/Error/Error";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -37,9 +39,20 @@ function App() {
           path: "profile",
           element: <Profile />,
         },
+
+        {
+          path: "*",
+          element: <ErrorPage />,
+        },
       ],
     },
+
+    {
+      path: "*",
+      element: <ErrorPage />,
+    },
   ]);
+
   return <RouterProvider router={router} />;
 }
 
