@@ -14,6 +14,7 @@ import CreateTodo from "../Todo/CreateTodo";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos } from "../../slice/todoSlice";
 import { deleteTodoApiCall } from "../../slice/deleteTodoSlice";
+import EditTodo from "../EditTodo/EditTodo";
 
 const HomePage = () => {
   const items = [
@@ -22,6 +23,8 @@ const HomePage = () => {
     { value: "c", title: "Third Item", text: "Some value 3..." },
   ];
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isEditTodoDrawerOpen, setIsEditTodoDrawerOpen] = useState(false);
+  const [editCurrentTodo, setEditCurrentTodo] = useState();
   const [currentTodo, setCurrentTodo] = useState();
   const handleShowTodoComponent = () => {
     setIsDrawerOpen(true);
@@ -55,6 +58,14 @@ const HomePage = () => {
       console.error("Error creating todo:", error);
     }
   }
+
+  function handleEditTodoComponent(item) {
+    setEditCurrentTodo(item);
+    setIsEditTodoDrawerOpen(true);
+  }
+  function handleCloseEditDrawer() {
+    setIsEditTodoDrawerOpen(false);
+  }
   return (
     <div className="todo-container">
       <div>
@@ -77,6 +88,13 @@ const HomePage = () => {
             </Button>
           </Box>
           <CreateTodo isOpen={isDrawerOpen} onClose={handleCloseDrawer} />
+          {isEditTodoDrawerOpen && (
+            <EditTodo
+              isOpen={isEditTodoDrawerOpen}
+              onClose={handleCloseEditDrawer}
+              editCurrentTodo={editCurrentTodo}
+            />
+          )}
           <div className="todo-display">
             <Accordion.Root collapsible w={800}>
               {currentTodo &&
@@ -111,6 +129,7 @@ const HomePage = () => {
                           ml={5}
                           w="70px"
                           h="40px"
+                          onClick={() => handleEditTodoComponent(item)}
                         >
                           Edit
                         </Button>
