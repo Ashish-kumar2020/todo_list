@@ -441,6 +441,70 @@ userRouter.delete("/deleteTodo", async (req, res) => {
     });
   }
 });
+
+// Stickywall endpoint
+userRouter.post("/stickywall", async (req, res) => {
+  const { title, description, userID } = req.body;
+  console.log(title, description, userID);
+  if (!title || !description || !userID) {
+    return res.status(400).json({
+      message: "All Fields Are Mandatory",
+    });
+  }
+
+  try {
+    const findUser = await userModel.findOne({ userID });
+    if (!findUser) {
+      return res.status(400).json({
+        message: "User Not Found",
+      });
+    }
+    const todoID = new Types.ObjectId();
+    findUser.stickyNotes.push({
+      title,
+      description,
+      todoID,
+    });
+    findUser.save();
+    return res.status(200).json({
+      message: "Sticky Note created Successfully",
+    });
+  } catch (error) {
+    console.log("Error in creating todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
+userRouter.post("/fetchallstickynotes", async (req, res) => {
+  const { userID } = req.body;
+  if (!userID) {
+    return res.status(400).json({
+      message: "Pass the userID",
+    });
+  }
+
+  try {
+    const userFound = await userModel.findOne({ userID });
+    if (!userFound) {
+      return res.status(400).json({
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "User Todos",
+      todos: userFound.stickyNotes,
+    });
+  } catch (error) {
+    console.log("Error in fetching todo", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
+
 module.exports = {
   userRouter,
 };

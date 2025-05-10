@@ -11,6 +11,11 @@ const todoSchema = new Schema({
   tagName: String,
 });
 
+const stickyWallSchema = new Schema({
+  title: String,
+  description: String,
+});
+
 const tagNameSchema = new Schema({
   tagName: [String],
 });
@@ -24,6 +29,7 @@ const userSchema = new Schema({
   DateOfBirth: String,
   userID: ObjectId,
   todos: [todoSchema],
+  stickyNotes: [stickyWallSchema],
 });
 
 const todoModel = mongoose.model("todos", todoSchema);
