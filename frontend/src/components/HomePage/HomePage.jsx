@@ -13,6 +13,8 @@ import "./HomePage.css";
 import CreateTodo from "../Todo/CreateTodo";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTodos } from "../../slice/todoSlice";
+import { deleteTodoApiCall } from "../../slice/deleteTodoSlice";
+
 const HomePage = () => {
   const items = [
     { value: "a", title: "First Item", text: "Some value 1..." },
@@ -39,6 +41,20 @@ const HomePage = () => {
       setCurrentTodo(data.todos);
     }
   }, [isLoading, data]);
+
+  async function handleDeleteTodo(todoID) {
+    try {
+      await dispatch(
+        deleteTodoApiCall({
+          userID: "680de41483e5f28bb0974fba",
+          todoID: todoID,
+        })
+      ).unwrap();
+      dispatch(fetchTodos({ userID: "680de41483e5f28bb0974fba" }));
+    } catch (error) {
+      console.error("Error creating todo:", error);
+    }
+  }
   return (
     <div className="todo-container">
       <div>
@@ -77,7 +93,16 @@ const HomePage = () => {
                     </Accordion.ItemContent>
                     <Accordion.ItemContent>
                       <Accordion.ItemBody>
-                        <Button bg="#DB4C3F" color="#ffff" w="70px" h="40px">
+                        <Button
+                          bg="#DB4C3F"
+                          color="#ffff"
+                          w="70px"
+                          h="40px"
+                          onClick={() => {
+                            handleDeleteTodo(item.todoID);
+                            console.log("ITEMID", item.todoID);
+                          }}
+                        >
                           Delete
                         </Button>
                         <Button
