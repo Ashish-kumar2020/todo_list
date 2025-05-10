@@ -70,7 +70,7 @@ const HomePage = () => {
     <div className="todo-container">
       <div>
         <Text fontSize="32px" fontWeight="bold" mb={4}>
-          Add Todo
+          Tasks
         </Text>
         <Container>
           <Box mt="30px">
@@ -111,6 +111,15 @@ const HomePage = () => {
                     </Accordion.ItemContent>
                     <Accordion.ItemContent>
                       <Accordion.ItemBody>
+                        <Button variant="outline" mr={5}>
+                          {item.dueDate}
+                        </Button>
+                        <Button variant="outline" mr={5}>
+                          {item.status}
+                        </Button>
+                        <Button variant="outline" mr={5}>
+                          {item.tagName}
+                        </Button>
                         <Button
                           bg="#DB4C3F"
                           color="#ffff"

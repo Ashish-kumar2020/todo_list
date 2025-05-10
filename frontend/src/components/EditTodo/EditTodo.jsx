@@ -74,7 +74,7 @@ const EditTodo = ({ isOpen, onClose, editCurrentTodo }) => {
         <Drawer.Positioner>
           <Drawer.Content>
             <Drawer.Header>
-              <Drawer.Title>Task:</Drawer.Title>
+              <Drawer.Title>Edit Task:</Drawer.Title>
               <Drawer.CloseTrigger asChild>
                 <CloseButton size="sm" onClick={onClose} />
               </Drawer.CloseTrigger>
