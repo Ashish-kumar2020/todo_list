@@ -175,7 +175,7 @@ const Signup = () => {
             </Button>
 
             <Text fontSize="13px" textAlign="center">
-              By continuing with Google, Apple, or Email, you agree to Todoist’s{" "}
+              By continuing with Google, Apple, or Email, you agree to Taskify{" "}
               <Text
                 as="span"
                 textDecoration="underline"

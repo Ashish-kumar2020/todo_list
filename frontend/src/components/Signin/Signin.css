@@ -1,9 +1,13 @@
 .signin-container {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    min-height: 100vh;
+
+    justify-content: center;
+
     align-items: center;
-    margin-top: 40px;
-    height: 70vh;
+
+    padding: 20px;
 }
 
 .form-container {

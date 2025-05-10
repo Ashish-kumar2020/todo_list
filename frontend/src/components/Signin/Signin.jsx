@@ -55,9 +55,10 @@ const Signin = () => {
   return (
     <div className="signin-container">
       <div className="signin-heading">
-        <Text fontSize="32px" fontWeight="bold" mb={4}>
-          Signin
+        <Text fontWeight="bold" fontSize="32px">
+          Welcome Back!
         </Text>
+        <Text fontSize="sm">Manage your tasks efficiently with Taskify.</Text>
 
         <div className="form-container">
           <Box mt="10px">
@@ -104,7 +105,7 @@ const Signin = () => {
           </Box>
           <Box mt="20px">
             <Text fontSize="13px">
-              By continuing with Google, Apple, or Email, you agree to Todoist’s{" "}
+              By continuing with Google, Apple, or Email, you agree to Taskify{" "}
               <br />
               <Text
                 as="span"
